@@ -1,0 +1,83 @@
+#@title 1. Setup — pinned project source
+
+Pinned source: 27bbce9e2712cb9fafe77b9ec19a40ae8d19ab55
+Synthetic prototype only; not field validation. No ESP32 firmware is changed.
+
+
+#@title 2. Synthetic generation — 1,000 samples, four crops
+
+Generated: 1000 synthetic rows; seed=42
+label
+kidneybeans    250
+banana         250
+cabbage        250
+maize          250
+Inputs: ['SM', 'ST7in1', 'pH', 'N', 'P', 'K', 'EC', 'STDS18B20', 'SMCap', 'label']
+
+
+#@title 3. Stratified splitting — 70% training, 15% validation, 15% test
+
+Disjoint splits verified: train=700, validation=150, test=150
+Test support: {'kidneybeans': 38, 'maize': 38, 'cabbage': 37, 'banana': 37}
+
+
+#@title 4. Train the original four-crop TinyRandomForest
+
+Training complete using training partition only.
+{'n_estimators': 15, 'max_depth': 5, 'total_tree_nodes': 555, 'estimated_const_flash_bytes': 5580, 'esp32_decision': 'fits_prototype_budget', 'note': 'Arrays are exported as const data for flash. Runtime RAM is dominated by vote counters and one feature vector.'}
+Crops: ['banana', 'cabbage', 'kidneybeans', 'maize']
+
+
+#@title 5. Validation — separate from the held-out test
+
+Validation accuracy: 91.33%; macro F1: 90.98%
+No tuning or model selection is performed on the test set.
+
+
+#@title 6. Held-out classification results and evaluation
+
+Held-out test accuracy: 95.33% (143/150 correct)
+Precision macro: 95.29% | Recall macro: 95.32% | F1 macro: 95.30%
+The graphs below use these newly computed results, not copied report percentages.
+
+
+#@title 7. Overall performance graph — synthetic test set
+
+<Figure size 1080x600 with 1 Axes>
+
+#@title 8. Per-crop classification performance graph
+
+<Figure size 1320x660 with 1 Axes>
+
+#@title 9. Confusion matrix — actual rows, predicted columns
+
+<Figure size 840x720 with 2 Axes>
+
+#@title 10. Missing and invalid readings — transparent provisional predictions
+
+complete {"prototype": true, "status": "complete_inputs", "crop": "kidneybeans", "measured_features": 7, "required_features": 7, "issues": [], "substitutions": [], "moisture_source": "fused", "temperature_source": "fused", "field_validated": false}
+missing N {"prototype": true, "status": "provisional", "crop": "maize", "measured_features": 6, "required_features": 7, "issues": [{"input": "N", "reason": "missing_or_nonfinite_or_marked_failed"}], "substitutions": [{"feature": "N", "method": "training_median", "value": 82.0555426159897}], "moisture_source": "fused", "temperature_source": "fused", "field_validated": false}
+invalid pH {"prototype": true, "status": "provisional", "crop": "kidneybeans", "measured_features": 6, "required_features": 7, "issues": [{"input": "pH", "reason": "outside_prototype_range"}], "substitutions": [{"feature": "pH", "method": "training_median", "value": 6.278272677225246}], "moisture_source": "fused", "temperature_source": "fused", "field_validated": false}
+all missing {"prototype": true, "status": "default_data_only", "crop": "maize", "measured_features": 0, "required_features": 7, "issues": [{"input": "moisture", "reason": "missing_or_nonfinite_or_marked_failed"}, {"input": "temperature", "reason": "missing_or_nonfinite_or_marked_failed"}, {"input": "pH", "reason": "missing_or_nonfinite_or_marked_failed"}, {"input": "N", "reason": "missing_or_nonfinite_or_marked_failed"}, {"input": "P", "reason": "missing_or_nonfinite_or_marked_failed"}, {"input": "K", "reason": "missing_or_nonfinite_or_marked_failed"}, {"input": "EC", "reason": "missing_or_nonfinite_or_marked_failed"}, {"input": "backup_temperature", "reason": "missing_or_nonfinite_or_marked_failed"}, {"input": "backup_moisture", "reason": "missing_or_nonfinite_or_marked_failed"}], "substitutions": [{"feature": "moisture", "method": "training_median", "value": 52.73408451061138}, {"feature": "temperature", "method": "training_median", "value": 23.193949083519442}, {"feature": "pH", "method": "training_median", "value": 6.278272677225246}, {"feature": "N", "method": "training_median", "value": 82.0555426159897}, {"feature": "P", "method": "training_median", "value": 52.3586667072549}, {"feature": "K", "method": "training_median", "value": 55.835070916802096}, {"feature": "EC", "method": "training_median", "value": 1.119932043670663}], "moisture_source": "training_median", "temperature_source": "training_median", "field_validated": false}
+Missing/invalid inputs are disclosed; median substitutions use training data only.
+All-missing predictions are defaults, not evidence of crop suitability. Zero EC/NPK sensor values require physical validation.
+
+
+#@title 11. Functional tests — generation, fusion, training and C export
+
+..............                                                           [100%]
+14 passed in 3.22s
+
+
+
+
+#@title 12. ESP32 model export and reproduction commands
+
+{'features': ['SMFused', 'STFused', 'pH', 'N', 'P', 'K', 'EC'], 'classes': ['banana', 'cabbage', 'kidneybeans', 'maize'], 'tree_count': 15, 'total_nodes': 555, 'artifact_type': 'ESP32-compatible C/C++ header', 'source_artifact': 'TinyRandomForest JSON (not sklearn joblib)', 'desktop_pickle_warning': '.joblib/.pkl artifacts are not used. ESP32 loads crop_model.h only.'}
+Run from the repository training directory, with PYTHONPATH=src:
+python -m soil_ml.cli synthetic --rows-per-crop 250 --seed 42
+python -m soil_ml.cli train
+python -m soil_ml.cli export
+python -m pytest -q tests
+Runtime versions: {'python': '3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]', 'numpy': '2.1.3', 'pandas': '2.2.3'}
+Export only: no physical board upload or hardware test was performed by this notebook.

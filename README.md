@@ -40,3 +40,11 @@ The four-crop model uses synthetic training data and produces provisional recomm
 
 The current firmware is the integrated gateway sketch, not the standalone example under edge. Supporting component READMEs may describe earlier implementation stages.
 
+
+## Executed Colab workflow, graphs and appendices
+
+[Start here: complete project guide](docs/Project_Guide.md)
+
+[Executed notebook](notebooks/ML-IoT-based-FYP.ipynb) · [Open existing Colab](https://colab.research.google.com/drive/1QyC-t7w4dpLWgi2hc77Jppj-xffhK8JT?usp=sharing) · [Performance graphs](results/figures) · [Appendices A–G](docs/Appendices_Procedure_and_Source.txt)
+
+Colab reproduction: 95.33% held-out synthetic accuracy, 14 functional tests passed. Full results and limitations are recorded in the guide.
