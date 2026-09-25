@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoilHealth Monitor — Live IoT Gateway</title>
+    <!-- CSS Styling Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ================= 1. SECURITY & AUTHENTICATION PORTAL (VISIBLE ON LOAD) ================= -->
+    <div id="auth-portal-screen" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>SoilHealth Monitor</h2>
+                <p>Enterprise IoT Agriculture Gateway &bull; Kigali, Rwanda</p>
+                <div class="encryption-badge">Private dashboard · Secure sign-in</div>
+            </div>
+            
+            <!-- Dynamic Authentication Error Banner -->
+            <div id="login-error" class="login-error-msg hidden">Unable to sign in. Check your credentials.</div>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" autocomplete="username" placeholder="Your dashboard username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-login">Sign in</button>
+            </form>
+            <div class="login-footer">
+                <p>Access is checked by the server. Your MQTT credentials are never needed here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 2. MAIN APPLICATION WORKSPACE (HIDDEN UNTIL AUTHENTICATED) ================= -->
+    <div id="main-system-application" class="dashboard-container hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>SoilHealth Monitor</h2>
+                <span id="active-user-badge" class="user-role-tag">Initial-Securing</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#" id="side-dash" class="active" data-view="view-dashboard">Dashboard</a>
+                <a href="#" id="side-sensors" data-view="view-sensors-spec">IoT Nodes/Sensors</a>
+                <a href="#" id="sidebar-ml-link" data-view="view-ml-diagnostics">ML Analysis</a>
+                <a href="#" id="side-settings" data-view="view-settings-panel">System Settings</a>
+                <a href="#" id="logout" style="margin-top: 60px; color: #E74C3C; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">Logout Securely</a>
+            </nav>
+        </aside>
+
+        <!-- Core Display Panel Viewport -->
+        <main class="main-content">
+            <!-- Universal Operational Header -->
+            <header class="top-nav">
+                <h1 id="page-title">Dashboard Overview</h1>
+                <div class="header-right-meta">
+                    <span class="firewall-badge">Soil monitoring</span>
+                    <span id="connection-status" class="status-badge">Waiting for data</span>
+                </div>
+            </header>
+
+            <!-- ================= SUB-VIEW A: CORE TELEMETRY DASHBOARD ================= -->
+            <div id="view-dashboard" class="dashboard-view-panel">
+                <!-- Predictive & Prescriptive ML Banner -->
+                <section class="ml-banner">
+<h3>Soil monitoring</h3><p>Readings received from your ESP32. Saved readings remain available when the device is offline.</p>
+<p class="action-strip"><span id="crop-summary">Waiting for an ESP32 crop recommendation.</span></p>
+<p id="last-update" aria-live="polite">Waiting for a reading.</p>
+</section>
+
+                <!-- Real-time Multi-Parameter Sensor Grid (3x3 Layout) -->
+                <section class="metrics-grid">
+                    <div class="card" data-param="moisture"><h4>Soil Moisture</h4><p class="value" data-field="moisture_pct">—</p><span class="badge normal">Waiting</span></div>
+                    <div class="card" data-param="ph"><h4>pH Level</h4><p class="value" data-field="ph">—</p><span class="badge normal">Waiting</span></div>
+                    <div class="card" data-param="nitrogen"><h4>Nitrogen (N)</h4><p class="value" data-field="nitrogen_mg_kg">—</p><span class="badge normal">Waiting</span></div>
+                    <div class="card" data-param="phosphorus"><h4>Phosphorus (P)</h4><p class="value" data-field="phosphorus_mg_kg">—</p><span class="badge normal">Waiting</span></div>
+                    <div class="card" data-param="potassium"><h4>Potassium (K)</h4><p class="value" data-field="potassium_mg_kg">—</p><span class="badge normal">Waiting</span></div>
+                    <div class="card" data-param="ec"><h4>Conductivity (EC)</h4><p class="value" data-field="ec_us_cm">—</p><span class="badge normal">Waiting</span></div>
+                    <div class="card" data-param="temp"><h4>Temperature</h4><p class="value" data-field="soil_temp_c">—</p><span class="badge normal">Waiting</span></div>
+                    <div class="card card-placeholder"><h4>DS18B20 Ref Temp</h4><p class="value" data-field="reference_temp_c">—</p><span class="badge normal">Waiting</span></div>
+                    <div class="card" data-param="capacitive"><h4>Capacitive Ref Moisture</h4><p class="value" data-field="capacitive">—</p><span class="badge normal">Waiting</span></div>
+                </section>
+
+                <!-- Network QoS Throughput & Security Infrastructure Indicators -->
+                <div class="network-security-row">
+<div class="card structural-flex"><h3>Gateway delivery</h3>
+<div class="score-row"><strong>Device:</strong><span>esp32-01</span></div>
+<div class="score-row"><strong>Reading age:</strong><span id="reading-age">—</span></div>
+<div class="score-row"><strong>Sequence:</strong><span id="reading-sequence">—</span></div>
+<div class="score-row"><strong>Pump report:</strong><span id="pump-report">Unknown</span></div></div>
+<div class="card structural-flex"><h3>Connection security</h3>
+<div class="score-row"><strong>Transport:</strong><span>MQTT over TLS + HTTPS upload</span></div>
+<div class="score-row"><strong>Device access:</strong><span>Scoped broker credentials; no device signatures</span></div>
+<div class="score-row"><strong>Dashboard access:</strong><span>Server-validated session</span></div>
+<div class="score-row"><strong>SMS via SIM800C:</strong><span id="sms-status">Waiting for device status</span></div></div></div>
+</div>
+
+            <!-- ================= SUB-VIEW B: HARDWARE DIRECTORY ================= -->
+            <div id="view-sensors-spec" class="dashboard-view-panel hidden">
+                <section class="hardware-directory-grid">
+                    <div class="card">
+                        <h3>7-in-1 Soil Integrated Sensor Array</h3>
+                        <p class="tech-source">Supplier unconfirmed — purchased used</p>
+                        <p class="desc-text">Industrial-grade vacuum epoxy resin probe built with anti-corrosive metal spikes designed for deep soil burial.</p>
+                        <ul class="spec-list">
+                            <li><strong>Bus Profile:</strong> RS485 Interface Matrix</li>
+                            <li><strong>Protocol Layer:</strong> Modbus-RTU Protocol</li>
+                            <li><strong>Enclosure Protection:</strong> Rating not independently verified</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>DS18B20 Digital Thermal Reference Probe</h3>
+                        <p class="tech-source">Connected reference temperature probe</p>
+                        <p class="desc-text">Waterproof digital probe running as a dedicated hardware redundancy verification channel to detect integrated sensor drift.</p>
+                        <ul class="spec-list">
+                            <li><strong>Bus Profile:</strong> 1-Wire Single Bus</li>
+                            <li><strong>Tolerance Bounds:</strong> &plusmn;0.5&deg;C Calibration Guard</li>
+                            <li><strong>Operating Bounds:</strong> -55&deg;C to +125&deg;C Evaluation Matrix</li>
+                        </ul>
+                    </div>
+                </section>
+            <section class="card hardware-directory"><h3>Capacitive Soil Moisture Sensor V2.0</h3><p>Analog output connected to ESP32 GPIO35 (ADC1), powered from 3.3 V. The dashboard shows measured millivolts until dry/wet endpoints are recorded. Lower voltage generally indicates wetter conditions. A calibrated relative percentage is not laboratory volumetric water content.</p><p>Keep the connector and electronic components above the soil and water line. Supplier information: Nyereka; the supplied product listing is not an independent calibration certificate.</p></section></div>
+            <div id="view-parameter" class="dashboard-view-panel hidden">
+                <button class="btn-primary" data-view="view-dashboard">Back to dashboard</button>
+                <h2 id="parameter-screen-title"></h2><p id="parameter-screen-desc"></p>
+                <p>Recent saved readings persist across visits. Full received history is stored on your computer. Gaps indicate unavailable readings. <button id="export-history" type="button">Download recent CSV</button></p>
+                <div class="big-chart-graphic"><canvas id="agriTechChart" aria-label="Received sensor readings" role="img"></canvas></div>
+            </div>
+            <div id="view-ml-diagnostics" class="dashboard-view-panel hidden"><h2>ML Analysis</h2><p><span id="crop-detail">Waiting for the ESP32 to report a recommendation from the four-crop model: cabbage, kidney beans, banana or maize.</span></p></div>
+            <div id="view-settings-panel" class="dashboard-view-panel hidden">
+                <h2>Display settings</h2>
+                <button id="btn-theme-light" class="btn-primary active-toggle" data-theme="light">Light theme</button>
+                <button id="btn-theme-dark" class="btn-primary" data-theme="dark">Dark theme</button>
+                <h3>Gateway connection</h3><p>Readings arrive through the local Python receiver and cloud bridge. Keep both running on your computer. If either stops, this dashboard marks the last reading stale.</p>
+                <p>Pump ON/OFF status is reported by the ESP32. SIM800C sends crop and pump messages after its recipient number and wiring are configured. Your computer stores received readings in SQLite; the dashboard keeps the latest 240 uploaded readings.</p>
+            </div>
+        </main>
+    </div>
+    <script src="chart.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

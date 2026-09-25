@@ -1,0 +1,14 @@
+secrets.h
+.env
+.env.*
+!.env.example
+bridge.json
+node_modules/
+.netlify/
+__pycache__/
+*.pyc
+*.sqlite3*
+build/
+*.bin
+*.elf
+*.log

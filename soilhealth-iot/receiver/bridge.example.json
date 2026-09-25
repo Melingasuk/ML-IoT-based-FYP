@@ -1,0 +1,4 @@
+{
+  "endpoint": "https://YOUR-SITE.netlify.app/.netlify/functions/ingest",
+  "key": "YOUR_INGEST_KEY"
+}

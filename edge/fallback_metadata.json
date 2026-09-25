@@ -1,0 +1,41 @@
+{
+  "retrained": false,
+  "classes": [
+    "banana",
+    "cabbage",
+    "kidneybeans",
+    "maize"
+  ],
+  "features": [
+    "SMFused",
+    "STFused",
+    "pH",
+    "N",
+    "P",
+    "K",
+    "EC"
+  ],
+  "medians": [
+    52.73408508300781,
+    23.19394874572754,
+    6.27827262878418,
+    82.0555419921875,
+    52.358665466308594,
+    55.8350715637207,
+    1.1199320554733276
+  ],
+  "median_source": "Original synthetic dataset, deterministic seed-42 training split only (700 rows).",
+  "model_sha256": "cf6dfb6574644bc8ffc449edf207b8e081653cd8982ddbca91248c12b0e20bd3",
+  "header_sha256": "e9f858dd4f12446fba34a6ad878ee37ee472693c324be7839d178f8bc6417ac0",
+  "policy": "Use valid fused/backup readings first, substitute training medians only for unresolved features; disclose all input issues and substitutions. All-missing output is default-data-only.",
+  "units": [
+    "percent",
+    "C",
+    "pH",
+    "training N unit",
+    "training P unit",
+    "training K unit",
+    "mS/cm"
+  ],
+  "warning": "Prototype synthetic model. NPK sensor/training unit and calibration parity remain unverified. Convert EC from uS/cm to mS/cm before inference."
+}

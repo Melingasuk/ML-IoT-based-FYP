@@ -1,0 +1,171 @@
+{
+  "assumptions": [
+    "Synthetic dataset is prototype-only and not final academic validation.",
+    "No scaler is used because Random Forest thresholds can run directly on raw sensor units.",
+    "Train/validation/test split is stratified 70/15/15. No target leakage columns are used.",
+    "Desktop JSON model artifact is not deployed to ESP32.",
+    "Random Forest is TinyRandomForest with random_state=42 (deterministic bootstrap and splits)."
+  ],
+  "features": [
+    "SMFused",
+    "STFused",
+    "pH",
+    "N",
+    "P",
+    "K",
+    "EC"
+  ],
+  "raw_features": [
+    "SM",
+    "ST7in1",
+    "pH",
+    "N",
+    "P",
+    "K",
+    "EC",
+    "STDS18B20",
+    "SMCap"
+  ],
+  "fusion": "Equal weight healthy pairs; single-valid fallback; unresolved disagreement blocks recommendations. Coverage is not accuracy.",
+  "split_rows": {
+    "train": 700,
+    "validation": 150,
+    "test": 150
+  },
+  "validation": {
+    "accuracy": 0.9133333333333333,
+    "precision_macro": 0.9179383116883117,
+    "recall_macro": 0.9125177809388335,
+    "macro_f1": 0.9097719353816914,
+    "classification_report": {
+      "banana": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 38
+      },
+      "cabbage": {
+        "precision": 0.8181818181818182,
+        "recall": 0.9473684210526315,
+        "f1-score": 0.8780487804878049,
+        "support": 38
+      },
+      "kidneybeans": {
+        "precision": 0.925,
+        "recall": 1.0,
+        "f1-score": 0.961038961038961,
+        "support": 37
+      },
+      "maize": {
+        "precision": 0.9285714285714286,
+        "recall": 0.7027027027027027,
+        "f1-score": 0.7999999999999999,
+        "support": 37
+      }
+    },
+    "confusion_matrix": [
+      [
+        38,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        36,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        8,
+        3,
+        26
+      ]
+    ],
+    "labels": [
+      "banana",
+      "cabbage",
+      "kidneybeans",
+      "maize"
+    ]
+  },
+  "test": {
+    "accuracy": 0.9533333333333334,
+    "precision_macro": 0.9528508771929824,
+    "recall_macro": 0.9532361308677099,
+    "macro_f1": 0.9529572218216774,
+    "classification_report": {
+      "banana": {
+        "precision": 0.9736842105263158,
+        "recall": 1.0,
+        "f1-score": 0.9866666666666666,
+        "support": 37
+      },
+      "cabbage": {
+        "precision": 0.9166666666666666,
+        "recall": 0.8918918918918919,
+        "f1-score": 0.9041095890410958,
+        "support": 37
+      },
+      "kidneybeans": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 38
+      },
+      "maize": {
+        "precision": 0.9210526315789473,
+        "recall": 0.9210526315789473,
+        "f1-score": 0.9210526315789473,
+        "support": 38
+      }
+    },
+    "confusion_matrix": [
+      [
+        37,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        33,
+        0,
+        3
+      ],
+      [
+        0,
+        0,
+        38,
+        0
+      ],
+      [
+        0,
+        3,
+        0,
+        35
+      ]
+    ],
+    "labels": [
+      "banana",
+      "cabbage",
+      "kidneybeans",
+      "maize"
+    ]
+  },
+  "edge_size": {
+    "n_estimators": 15,
+    "max_depth": 5,
+    "total_tree_nodes": 555,
+    "estimated_const_flash_bytes": 5580,
+    "esp32_decision": "fits_prototype_budget",
+    "note": "Arrays are exported as const data for flash. Runtime RAM is dominated by vote counters and one feature vector."
+  }
+}

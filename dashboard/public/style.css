@@ -1,0 +1,132 @@
+/* Custom Agri-Tech Visual Theme Configurations */
+:root {
+    --bg-main: #FAFBFA;
+    --sidebar-bg: #1A3020; /* Deep Forest Green */
+    --tech-blue: #0073E6;
+    --healthy-green: #2ECC71;
+    --warning-orange: #E67E22;
+    --text-dark: #2C3E50;
+    --card-white: #FFFFFF;
+    --border-gray: #EAEDED;
+}
+
+/* Dark Mode Theme Tokens */
+.dark-theme-active {
+    --bg-main: #121212;
+    --text-dark: #E0E0E0;
+    --card-white: #1E1E1E;
+    --border-gray: #333333;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Layout Architecture Wrappers */
+.dashboard-container { display: flex; min-height: 100vh; }
+.hidden { display: none !important; }
+
+/* Sidebar Navigation Layout styling */
+.sidebar { width: 260px; background-color: var(--sidebar-bg); color: white; padding: 25px 20px; box-sizing: border-box; }
+.sidebar h2 { font-size: 22px; margin-top: 0; margin-bottom: 30px; letter-spacing: 0.5px; }
+.nav-links a { display: block; color: #BDC3C7; text-decoration: none; padding: 12px 15px; margin-bottom: 8px; border-radius: 6px; font-weight: 500; transition: 0.2s; }
+.nav-links a:hover, .nav-links a.active { background-color: rgba(255, 255, 255, 0.1); color: white; }
+
+/* Viewport Main Canvas Container */
+.main-content { flex: 1; padding: 35px; box-sizing: border-box; overflow-y: auto; }
+.top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--border-gray); padding-bottom: 15px; }
+.header-right-meta { display: flex; gap: 15px; align-items: center; }
+
+/* Global System Status Tags styling */
+.status-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; background-color: #E8F8F5; color: #27AE60; }
+.firewall-badge { padding: 5px 12px; border-radius: 6px; font-size: 12px; background-color: #EBF5FB; color: var(--tech-blue); font-weight: 500; border: 1px solid #AED6F1; }
+.user-role-tag { background: rgba(255, 255, 255, 0.15); padding: 3px 8px; border-radius: 4px; font-size: 11px; display: inline-block; margin-top: 5px; font-weight: bold; }
+
+/* Prescriptive Predictive ML Banners */
+.ml-banner { background-color: #EBF5FB; border-left: 5px solid var(--tech-blue); padding: 25px; border-radius: 8px; margin-bottom: 30px; }
+.ml-banner h3 { margin: 0 0 10px 0; color: var(--tech-blue); font-size: 18px; }
+.ml-banner .action-strip { background-color: white; padding: 10px 15px; border-radius: 4px; border: 1px dashed #AED6F1; margin: 12px 0; }
+
+/* Grid Containers Layout Engines */
+.metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.hardware-directory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.network-security-row { display: flex; gap: 20px; margin-top: 25px; }
+.structural-flex { flex: 1; }
+
+/* Unified Card Interface Styling */
+.card { background: var(--card-white); padding: 22px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); border: 1px solid var(--border-gray); transition: transform 0.2s, background-color 0.3s; }
+.metrics-grid .card { cursor: pointer; }
+.metrics-grid .card:hover { transform: translateY(-3px); border-color: var(--tech-blue); }
+.card h3 { margin-top: 0; margin-bottom: 20px; font-size: 16px; border-bottom: 1px solid var(--border-gray); padding-bottom: 10px; color: var(--text-dark); }
+.card h4 { margin: 0 0 8px 0; color: #7F8C8D; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.card .value { font-size: 32px; font-weight: bold; margin: 8px 0; color: var(--text-dark); }
+.card-placeholder { background-color: rgba(0,0,0,0.02); border-style: dashed; }
+
+/* Tabbed Button UI Controls */
+.btn-primary { background-color: var(--tech-blue); color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
+.btn-primary:hover { background-color: #0059B3; }
+.btn-secondary { background-color: transparent; color: var(--text-dark); border: 1px solid var(--text-dark); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; }
+.btn-secondary.active-toggle { background-color: var(--sidebar-bg); color: white; border-color: var(--sidebar-bg); }
+
+/* Unified Text & Score Lists Elements */
+.score-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-gray); font-size: 14px; }
+.txt-secure { color: var(--healthy-green); font-weight: bold; }
+.txt-token { color: var(--tech-blue); font-weight: bold; }
+.tech-source { font-size: 11px; color: #95A5A6; text-transform: uppercase; font-weight: bold; margin-top: -15px; margin-bottom: 15px; }
+.desc-text { font-size: 14px; line-height: 1.5; color: #7F8C8D; }
+.spec-list { padding-left: 20px; margin-top: 15px; font-size: 13px; line-height: 1.8; }
+
+/* Diagnostic View Layout Wrappers */
+.ml-diagnostics-top-row { display: flex; gap: 20px; }
+.block-scoring { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.block-charts { flex: 2; }
+.dual-canvas-wrapper { display: flex; gap: 15px; height: 180px; margin-top: 10px; }
+.canvas-item { flex: 1; position: relative; }
+.big-chart-graphic { background-color: var(--card-white); border: 1px solid var(--border-gray); border-radius: 8px; height: 340px; padding: 15px; box-sizing: border-box; }
+
+/* Status Badges */
+.badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+.badge.normal { background-color: #E8F8F5; color: #27AE60; }
+.badge.optimal { background-color: #E8F8F5; color: var(--healthy-green); }
+.badge.warning { background-color: #FDF2E9; color: var(--warning-orange); }
+
+/* Tabular Diagnostic Logs */
+.log-table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: left; font-size: 14px; }
+.log-table th { padding: 12px; border-bottom: 2px solid var(--border-gray); color: #7F8C8D; }
+.log-table td { padding: 12px; border-bottom: 1px solid var(--border-gray); }
+.tbl-badge { padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+.tbl-badge.red { background-color: #FADBD8; color: #C0392B; }
+.tbl-badge.green { background-color: #D4EDDA; color: #155724; }
+
+/* ================= LOCKSCREEN SECURE AUTHENTICATION HUB ================= */
+.login-wrapper { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--sidebar-bg); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+.login-card { background: white; padding: 45px; border-radius: 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.25); width: 100%; max-width: 440px; box-sizing: border-box; color: #2C3E50; }
+.login-header h2 { margin: 0 0 5px 0; color: var(--sidebar-bg); font-size: 30px; text-align: center; }
+.login-header p { margin: 0 0 12px 0; color: #7F8C8D; font-size: 13px; text-align: center; }
+.encryption-badge { text-align: center; font-size: 11px; font-weight: bold; background-color: #EBF5FB; color: var(--tech-blue); padding: 5px; border-radius: 4px; margin-bottom: 25px; }
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; font-size: 13px; font-weight: bold; color: #34495E; margin-bottom: 6px; }
+.input-group input, .input-group select { width: 100%; padding: 11px; border: 1px solid #BDC3C7; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+.btn-login { width: 100%; background-color: var(--tech-blue); color: white; border: none; padding: 13px; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; transition: background-color 0.2s; }
+.btn-login:hover { background-color: #0059B3; }
+.login-error-msg { background-color: #FADBD8; color: #78281F; padding: 11px; border-radius: 6px; font-size: 13px; margin-bottom: 22px; text-align: center; border: 1px solid #E6B0AA; font-weight: 500; }
+.login-footer { text-align: center; font-size: 11px; color: #95A5A6; margin-top: 25px; }
+* { box-sizing: border-box; }
+.main-content { min-width: 0; }
+.login-wrapper { padding: 20px; overflow-y: auto; height: 100dvh; }
+.login-card { margin: auto; }
+.btn-primary { background: var(--tech-blue); color: white; border: 0; border-radius: 6px; padding: 12px 16px; cursor: pointer; }
+:focus-visible { outline: 3px solid #E67E22; outline-offset: 3px; }
+.active-toggle { outline: 2px solid var(--healthy-green); outline-offset: 2px; }
+.dark-theme-active .ml-banner { background: #172b3c; }
+.dark-theme-active .action-strip { background: var(--card-white); }
+@media (max-width: 1000px) { .metrics-grid, .hardware-directory-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .network-security-row { flex-direction: column; } .top-nav { align-items: flex-start; gap: 14px; flex-direction: column; } }
+@media (max-width: 650px) { .dashboard-container { flex-direction: column; } .sidebar { width: 100%; padding: 18px; } .sidebar h2 { margin-bottom: 10px; } .nav-links { display: flex; flex-wrap: wrap; gap: 4px; } .nav-links a { margin: 0 !important; padding: 9px !important; } .main-content { padding: 18px; } .metrics-grid, .hardware-directory-grid { grid-template-columns: 1fr; } .header-right-meta { flex-wrap: wrap; } .login-card { padding: 24px; } h1 { font-size: 25px; } .score-row { flex-wrap: wrap; gap: 8px; } }
+
+#connection-status:not(.online), .badge.saved { background:#fff1cc; color:#795500; }
+#connection-status.online { background:#e8f8f5; color:#176b3b; }
+#export-history { padding:8px 14px; border:1px solid #0073e6; border-radius:6px; cursor:pointer; }

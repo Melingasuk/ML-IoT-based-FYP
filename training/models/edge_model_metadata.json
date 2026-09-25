@@ -1,0 +1,22 @@
+{
+  "features": [
+    "SMFused",
+    "STFused",
+    "pH",
+    "N",
+    "P",
+    "K",
+    "EC"
+  ],
+  "classes": [
+    "banana",
+    "cabbage",
+    "kidneybeans",
+    "maize"
+  ],
+  "tree_count": 15,
+  "total_nodes": 555,
+  "artifact_type": "ESP32-compatible C/C++ header",
+  "source_artifact": "TinyRandomForest JSON (not sklearn joblib)",
+  "desktop_pickle_warning": ".joblib/.pkl artifacts are not used. ESP32 loads crop_model.h only."
+}
